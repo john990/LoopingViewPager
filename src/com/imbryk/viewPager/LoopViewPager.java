@@ -20,6 +20,7 @@ import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 /**
  * A ViewPager subclass enabling infinte scrolling of the viewPager elements
@@ -47,6 +48,8 @@ public class LoopViewPager extends ViewPager {
     OnPageChangeListener mOuterPageChangeListener;
     private LoopPagerAdapterWrapper mAdapter;
     private boolean mBoundaryCaching = DEFAULT_BOUNDARY_CASHING;
+
+    private boolean swipeEnable = true;
     
     
     /**
@@ -126,6 +129,30 @@ public class LoopViewPager extends ViewPager {
 
     private void init() {
         super.setOnPageChangeListener(onPageChangeListener);
+    }
+
+    public boolean isSwipeEnable() {
+        return swipeEnable;
+    }
+
+    public void setSwipeEnable(boolean swipeEnable) {
+        this.swipeEnable = swipeEnable;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        if (!swipeEnable)
+            return false;
+
+        return super.onInterceptTouchEvent(event);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (!swipeEnable)
+            return false;
+
+        return super.onTouchEvent(event);
     }
 
     private OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
